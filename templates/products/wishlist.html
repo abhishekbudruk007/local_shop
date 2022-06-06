@@ -1,0 +1,60 @@
+{% extends 'prodbase.html' %}
+
+{% block title %} wishlist {% endblock %}
+
+    {% block css %}
+    {% endblock %}
+
+{% block main %}
+<!-- Product Details Section Begin -->
+<section class="ftco-section ftco-cart">
+			<div class="container">
+				<div class="row">
+    			<div class="col-md-12 ftco-animate">
+    				<td class="cart-list">
+	    				<table class="table">
+						    <thead class="thead-primary">
+						      <tr class="text-center">
+						        <th>&nbsp;</th>
+						        <th>Product List</th>
+						        <th>&nbsp;</th>
+						        <th>Price</th>
+						      </tr>
+						    </thead>
+						    <tbody>
+                            {% for wishlist in wishlist_objects %}
+						      <tr class="text-center">
+						        <td class="product-remove">
+                                    <a href="{% url 'products:delete_from_wishlist' wishlist.id %}"><span class="fa fa-close"></span></a></td>
+
+						        <td class="image-prod">
+                                    <img src= "{{ wishlist.wishlist_product.product_photo.url }}" class="img-fluid" alt="Colorlib Template" style="width: auto; height: 280px;>
+                                </td>
+
+						        <td class="product-name">
+						        	<h3>{{ wishlist.wishlist_product.product_name }}</h3>
+						        	<p>{{ wishlist.wishlist_product.product_description }}</p>
+						        </td>
+
+						        <td class="price">{{ wishlist.wishlist_product.product_price }}</td>
+
+
+						      </tr>
+
+
+                            <!-- END TR-->
+                            {% endfor %}
+						    </tbody>
+						  </table>
+					  </div>
+    			</div>
+    		</div>
+			</div>
+		</section>
+
+    <!-- Product Details Section End -->
+
+{% endblock %}
+
+{% block js %}
+{% endblock %}

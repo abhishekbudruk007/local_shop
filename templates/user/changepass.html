@@ -1,0 +1,138 @@
+{% extends 'logbase.html' %}
+
+{% block title %}  {% endblock %}
+
+    {% block css %}
+    {% endblock %}
+
+{% block main %}
+
+    <!-- Register Section Begin -->
+    <div class="register-login-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="register-form">
+                        <h2>CHANGE PASSWORD</h2>
+                        <form name="changepass_form" method="POST" action="{% url 'user:changepass' %}" onsubmit="validate()" >
+                            {% csrf_token%}
+<!--                            {{ form1.as_c}}-->
+                            <div class="group-input">
+                                <label for="password1">old password *</label>
+                                <input type="text" name="old_password">
+<!--                                {{ form1.pass1 }}-->
+                            </div>
+                            <div class="group-input">
+                                <label for="password2">new password *</label>
+                                <input type="password" name="new_password">
+<!--                                 {{ form1.pass2 }}-->
+                            </div>
+                            <div class="group-input">
+                                <label for="password3">Confirm New Password *</label>
+                                <input type="password" name="confirm_new_password">
+<!--                                {{ form1.pass3 }}-->
+                            </div>
+                            <input type="submit" value="change" class="site-btn register-btn">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Register Form Section End -->
+
+
+{% endblock %}
+
+{% block js %}
+<script>
+    function validate()
+    {
+        password2 = document.forms["changepass_form"]["new_password"].value;
+        password3 = document.forms["changepass_form"]["confirm_new_password"].value;
+        console.log(password2, password3);
+        if(password2 != password3)
+        {
+            window.alert("passwords are not matching");
+            return False
+        }
+        return True
+    }
+</script>
+{% endblock %}
+
+{% extends 'base.html' %}
+{% block title %} register {% endblock %}
+      {% block css %}
+      {% endblock %}
+{% block main %}
+
+<script type="text/javascript">
+    function validate()
+    {
+        var password1 = document.form["registration_form"]["password1"].value;
+        var password2 = document.form["registration_form"]["password2"].value;
+        window.alert(password1, password2);
+        if(password1 != password2)
+        {
+            window.alert("Both passwords are not matching");
+            return False
+        }
+        return True
+    }
+</script>
+
+
+  <!-- Register Section Begin -->
+    <div class="register-login-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="register-form">
+                        <h2>Register</h2>
+                        <form name="registration_form" action="{% url 'users:register' %}" method="POST" enctype="multipart/form-data" onsubmit="validate()">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+<!--                            <div class="group-input">-->
+<!--                                <label for="username">Username *</label>-->
+<!--                                {{ form.username }}-->
+<!--                            </div>-->
+<!--                            <div class="group-input">-->
+<!--                                <label for="pass">Email *</label>-->
+<!--                                 {{ form.email }}-->
+<!--                            </div>-->
+<!--                            <div class="group-input">-->
+<!--                                <label for="con-pass">Password *</label>-->
+<!--                                {{ form.password1 }}-->
+<!--                            </div>-->
+<!--                            <div class="group-input">-->
+<!--                                <label for="con-pass">Confirm Password *</label>-->
+<!--                                {{ form.password2 }}-->
+<!--                            </div>-->
+<!--                            <div class="group-input">-->
+<!--                                <label for="con-pass">Avatar *</label>-->
+<!--                                {{ form.user_photo }}-->
+<!--                            </div>-->
+
+                            <input type="submit" class="site-btn register-btn" value="REGISTER"></input>
+                        </form>
+                        <div class="switch-login">
+                            <a href="{% url 'users:login' %}" class="or-login">Or Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Register Form Section End -->
+
+
+{% endblock %}
+<!--{% block custom_js %}-->
+
+<!--{% endblock %}-->
+
+{% block jss %}
+
+
+

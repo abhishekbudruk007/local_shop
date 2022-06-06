@@ -1,0 +1,74 @@
+{% extends 'logbase.html' %}
+
+{% block title %} signup {% endblock %}
+
+    {% block css %}
+    {% endblock %}
+
+{% block main %}
+
+    <!-- Register Section Begin -->
+    <div class="register-login-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="register-form">
+                        <h2>SIGN UP</h2>
+                        <form name="registration_form" action="{% url 'user:register' %}" method="POST" onsubmit="validate()" enctype="multipart/form-data">
+                            {% csrf_token%}
+<!--                            {{ form.as_p}}-->
+                            <div class="group-input">
+                                <label for="username">Username *</label>
+                                {{ form.username }}
+                            </div>
+                            <div class="group-input">
+                                <label for="pass">Email *</label>
+                                 {{ form.email }}
+                            </div>
+                            <div class="group-input">
+                                <label for="con-pass">Password *</label>
+                                {{ form.password1 }}
+                            </div>
+                            <div class="group-input">
+                                <label for="con-pass">Confirm Password *</label>
+                                {{ form.password2 }}
+                            </div>
+                            <div class="group-input">
+                                <label for="con-pass">Avatar *</label>
+                                {{ form.user_photo }}
+                            </div>
+                            <input type="submit" value="SIGN UP" class="site-btn register-btn">
+                        </form>
+                        <div class="switch-login">
+                            <a href="{% url 'user:login' %}" class="or-login">Or Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Register Form Section End -->
+    
+
+{% endblock %}
+
+{% block js %}
+<script>
+    function validate(){
+        password1 = document.forms["registration_form"]["password1"].value;
+        password2 = document.forms["registration_form"]["password2"].value;
+        console.log(password1, password2);
+        if(password1 != password2)
+        {
+            window.alert("Both passwords are not matching");
+            return False
+        }
+        return True
+    }
+</script>
+{% endblock %}
+
+
+
+
+
