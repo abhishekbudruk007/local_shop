@@ -54,7 +54,7 @@ def wishlist(request):
     return render(request, 'products/wishlist.html', context={"wishlist": wishlist_objects})
 
 from django.utils import timezone
-from .models import Order, OrderItem
+from .models import Order, OrderItem,CheckoutAddress
 from django.shortcuts import redirect, get_object_or_404
 
 def cart_details(request):
@@ -152,3 +152,54 @@ def remove_from_cart(request, pk):
     else:
         messages.info(request, "You do not have an order")
         return redirect("products:cart_details")
+
+from .models import CheckoutAddress
+from .forms import CheckoutForm
+def checkout(request):
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST or None)
+        try:
+            order = Order.objects.get(user=request.user, ordered=False)
+            if form.is_valid():
+                street_address = form.cleaned_data.get('street_address')
+                apartment_address = form.cleaned_data.get('apartment_address')
+                country = form.cleaned_data.get('country')
+                zip = form.cleaned_data.get('zip')
+
+                payment_option = form.cleaned_data.get('payment_option')
+
+                checkout_address = CheckoutAddress(
+                    user=request.user,
+                    street_address = street_address,
+                    apartment_address = apartment_address,
+                    country=country,
+                    zip=zip
+                )
+                checkout_address.save()
+                order.checkout_address = checkout_address
+                order.save()
+                if payment_option == 'C':
+                    order.payment = payment_option
+                    order.ordered = True
+                    order.save()
+                    messages.add_message(request, messages.SUCCESS, "Ordered Successfully")
+                    return redirect('dashboard:home')
+                elif payment_option == 'S':
+                    return redirect('products:payment', payment_option='stripe')
+                elif payment_option == 'P':
+                    return redirect('products:payment', payment_option='paypal')
+            else:
+                messages.warning(request, "Invalid Payment option")
+            return redirect('products:checkout')
+
+        except Exception as e:
+            messages.error(request, "You do not have an order")
+            return redirect('products:cart_details')
+    else:
+        form = CheckoutForm()
+        order = Order.objects.get(user=request.user, ordered=False)
+        context = {
+                'form': form,
+                'order': order
+        }
+        return render(request, 'products/checkout.html', context)
